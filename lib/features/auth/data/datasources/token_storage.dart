@@ -1,6 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenStorage {
+  static final TokenStorage _instance = TokenStorage._internal();
+  TokenStorage._internal();
+  factory TokenStorage() {
+    return _instance;
+  }
   static const String _tokenKey = 'jwt_token';
 
   Future<void> saveToken(String token) async {
@@ -17,4 +22,6 @@ class TokenStorage {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_tokenKey);
   }
+
+
 }

@@ -19,13 +19,13 @@ class AuthRepositoryImpl implements AuthRepository {
       username: username,
       password: password,
     );
-    await tokenStorage.saveToken(token);
+    await TokenStorage().saveToken(token);
     return token;
   }
 
   @override
   Future<void> logout() async {
-    await tokenStorage.deleteToken();
+    await TokenStorage().deleteToken();
   }
 
 }

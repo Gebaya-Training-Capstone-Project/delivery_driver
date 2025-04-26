@@ -6,6 +6,7 @@ import 'core/dependency_injection.dart' as di;
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 
 void main() {
+  print("Initializing GetIt di...");
   di.init();
   runApp(const MyApp());
 }

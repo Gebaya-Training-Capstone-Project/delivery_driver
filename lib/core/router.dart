@@ -1,11 +1,13 @@
 // lib/core/routes.dart
 import 'package:delivery_driver/features/Auth/presentation/bloc/auth_bloc.dart';
+import 'package:delivery_driver/features/DeliveryDriver/presentation/bloc/user_account_bloc.dart';
 import 'package:delivery_driver/features/DeliveryDriver/presentation/screens/home_page.dart';
 import 'package:delivery_driver/features/Auth/presentation/screens/login_page.dart';
 import 'package:delivery_driver/features/DeliveryDriver/presentation/screens/request_page.dart';
 import 'package:delivery_driver/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:delivery_driver/features/DeliveryDriver/presentation/bloc/user_account_event.dart';
 import '../features/DeliveryDriver/presentation/screens/account_page.dart';
 import '../features/DeliveryDriver/presentation/screens/delivery_page.dart';
 import 'dependency_injection.dart' as di;
@@ -53,11 +55,19 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.account,
-      builder: (context, state) => BlocProvider.value(
-        value: di.sl<AuthBloc>(),
-        child: AccountPage(),
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(
+            value: di.sl<AuthBloc>(),
+          ),
+          BlocProvider(
+            create: (_) => di.sl<UserAccountBloc>()..add(FetchUserAccountEvent()),
+          ),
+        ],
+        child: const AccountPage(),
       ),
     ),
+
     GoRoute(
       path: AppRoutes.request,
       builder: (context, state) => BlocProvider.value(
